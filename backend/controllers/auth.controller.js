@@ -13,24 +13,41 @@ function getDemoAccounts(req, res) {
 }
 
 function login(req, res) {
-  let { email } = req.body;
-  if (!email) {
+  let { email, password } = req.body;
+  if (!email || typeof email !== 'string') {
     return res.status(400).json({ success: false, error: 'Email address is required.' });
   }
 
-  // Alias demo emails for instant compatibility
-  const emailAliases = {
-    'customer@zewa.demo': 'customer@zewa.in',
-    'restaurant@zewa.demo': 'greenbistro@zewa.in',
-    'delivery@zewa.demo': 'delivery@zewa.in'
+  email = email.trim().toLowerCase();
+
+  // Explicitly configured Demo Accounts
+  const demoAccountMap = {
+    'customer@zewa.demo': { realEmail: 'customer@zewa.in', validPassword: 'demo_password_123' },
+    'restaurant@zewa.demo': { realEmail: 'greenbistro@zewa.in', validPassword: 'demo_password_123' },
+    'delivery@zewa.demo': { realEmail: 'delivery@zewa.in', validPassword: 'demo_password_123' },
+    'customer@zewa.in': { realEmail: 'customer@zewa.in', validPassword: 'demo_password_123' },
+    'greenbistro@zewa.in': { realEmail: 'greenbistro@zewa.in', validPassword: 'demo_password_123' },
+    'delivery@zewa.in': { realEmail: 'delivery@zewa.in', validPassword: 'demo_password_123' }
   };
-  if (emailAliases[email]) {
-    email = emailAliases[email];
+
+  const demoConfig = demoAccountMap[email];
+  const targetEmail = demoConfig ? demoConfig.realEmail : email;
+
+  const profile = db.findProfileByEmail(targetEmail);
+  if (!profile) {
+    return res.status(404).json({ success: false, error: `No ZEWA account found with email "${email}". Please register first.` });
   }
 
-  const profile = db.findProfileByEmail(email);
-  if (!profile) {
-    return res.status(404).json({ success: false, error: 'No account found with this email. Please register.' });
+  // Password verification
+  if (demoConfig) {
+    if (password && password !== demoConfig.validPassword) {
+      return res.status(401).json({ success: false, error: 'Incorrect password for this demo account. Please use "demo_password_123".' });
+    }
+  } else if (profile.password_hash) {
+    // If user registered with password
+    if (profile.password_hash !== password) {
+      return res.status(401).json({ success: false, error: 'Incorrect password. Please verify and try again.' });
+    }
   }
 
   // If restaurant, attach their restaurant details

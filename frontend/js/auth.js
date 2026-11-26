@@ -85,11 +85,17 @@ window.zewaAuth = {
 
   async loginWithDemo(roleKey, silent = false) {
     const creds = this.demoAccounts[roleKey];
-    if (!creds) return;
+    if (!creds) {
+      window.zewaApp.showToast(`No demo account configured for "${roleKey}".`, 'error');
+      return;
+    }
 
     try {
-      if (!silent) window.zewaApp.showToast(`Switching to ${creds.name}...`, 'info');
+      if (!silent) window.zewaApp.showToast(`Signing in as ${creds.name}...`, 'info');
       const res = await window.zewaApi.login(creds.email, creds.password);
+      if (!res.user) {
+        throw new Error('Authentication response did not return a valid user profile.');
+      }
       this.currentRole = res.user.role;
       this.updateUiForLoggedInUser(res.user);
       this.closeAuthModal();
@@ -97,10 +103,14 @@ window.zewaAuth = {
       // Trigger app view change
       window.zewaApp.onRoleSwitched(this.currentRole);
 
-      if (!silent) window.zewaApp.showToast(`Logged in as ${res.user.full_name}`, 'success');
+      if (!silent) window.zewaApp.showToast(`Welcome back, ${res.user.full_name}!`, 'success');
     } catch (err) {
       console.error('[Auth] Demo login failed:', err);
-      if (!silent) window.zewaApp.showToast(`Login failed: ${err.message}`, 'error');
+      if (!silent) {
+        window.zewaApp.showToast(`Login failed: ${err.message}`, 'error');
+      } else {
+        window.zewaApp.showToast(`Backend connection notice: ${err.message}`, 'warning');
+      }
     }
   },
 

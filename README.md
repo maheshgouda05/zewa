@@ -138,8 +138,10 @@ npm install
 ```bash
 npm start
 ```
-The server will boot at **`http://localhost:5000`**.
-Open your browser to `http://localhost:5000` to interact with the full application!
+The server will boot at **`http://localhost:4000`**.
+Open your browser to `http://localhost:4000` to interact with the full application!
+
+> *Note on VS Code Live Server:* If you open the frontend via Live Server (port 5500), it automatically connects to the backend API running on `http://localhost:4000/api`. Make sure `npm start` is running in your terminal.
 
 ### 3. Optional: Connect Live Supabase Database
 By default, ZEWA includes a resilient local database pre-seeded with sample restaurants, surplus foods, and demo users.

@@ -19,6 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '..')));
+
+// Favicon handler
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/assets/favicon.svg'));
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);

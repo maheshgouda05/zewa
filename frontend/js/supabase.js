@@ -1,12 +1,31 @@
 /**
  * ZEWA - Frontend API & Supabase Client Adapter
  * Seamlessly interfaces with the Express Backend (/api)
- * Supports live Supabase client or local API fallback with session caching.
+ * Automatically detects whether served from Express (:4000) or Live Server (:5500)
  */
 
-const API_BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-  ? '/api'
-  : (window.location.origin + '/api');
+function resolveApiBase() {
+  if (window.ZEWA_API_BASE) {
+    return window.ZEWA_API_BASE;
+  }
+  const port = window.location.port;
+  const hostname = window.location.hostname;
+
+  // When served directly by the Express backend on port 4000
+  if (port === '4000') {
+    return '/api';
+  }
+
+  // When served via VS Code Live Server (port 5500, 5501, 8080, etc.) or local static dev server
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || window.location.protocol === 'file:') {
+    return 'http://localhost:4000/api';
+  }
+
+  // Production deployments (Vercel, Node host)
+  return '/api';
+}
+
+const API_BASE = resolveApiBase();
 
 class ZewaApi {
   constructor() {
@@ -49,11 +68,16 @@ class ZewaApi {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error ${response.status}`);
+        throw new Error(data.error || `HTTP error ${response.status}: ${response.statusText}`);
       }
 
       return data;
     } catch (err) {
+      if (err.message && (err.message.includes('Failed to fetch') || err.message.includes('NetworkError'))) {
+        const customErr = new Error(`Cannot connect to ZEWA backend server at ${API_BASE}. Please make sure the backend is running via "npm start" on port 4000.`);
+        console.warn(`[API] Server offline:`, customErr.message);
+        throw customErr;
+      }
       console.warn(`[API] Error on ${endpoint}:`, err.message);
       throw err;
     }
