@@ -1,169 +1,175 @@
-# ZEWA – ZERO WASTE (Surplus Food Marketplace)
-### Hyperlocal Surplus Food Redistribution Network — Frontend Client & Mobile Experience
+# 🌱 ZEWA (Zero Waste) • Food Surplus Marketplace
 
-**ZEWA (Zero Waste)** is a modern, responsive food-surplus marketplace prototype that connects restaurants, bakeries, cafes, and hotels with nearby customers and college students. Restaurants can list safe, unsold surplus food at 50%–70% discounts, and customers can discover, reserve, and collect these meals before the pickup deadline, preventing avoidable landfill waste and cutting carbon emissions.
-
----
-
-## 🌿 1. Human-Crafted Artisanal Palette & Typography
-
-ZEWA has been redesigned with a distinctive editorial aesthetic inspired by sustainable gastronomy, slow food movements, and local organic farms:
-
-- **Deep Forest Green (`#244C3A`):** Primary brand anchor representing grounded environmental impact, stability, and authenticity.
-- **Olive Green (`#71865A`):** Secondary herbal tone for cuisine tags, subtitles, and eco-badges.
-- **Warm Cream (`#F7F4EA`):** Warm, inviting canvas background reminiscent of unbleached parchment and artisan flour.
-- **Soft Beige (`#E9E1D2` / `#F1EBE0`):** Tactile card backgrounds and subtle architectural borders.
-- **Terracotta (`#C87855`):** Warm clay accent for savings badges, discounts, and visual focus points.
-- **Charcoal (`#30352F`):** Gentle, high-contrast text color that is much softer and more human than harsh pure black.
-- **Typography:** **`DM Serif Display`** for editorial display headlines paired with **`DM Sans`** for crisp, highly readable mobile body text and UI labels.
+> **A real-time, dynamic food surplus marketplace connecting restaurants, nearby customers, and eco-delivery partners to eradicate urban food waste.**
 
 ---
 
-## 📱 2. Mobile-First Responsive Engineering (Tested 320px–430px)
+## 🌟 Executive Summary & Concept
 
-The prototype is engineered specifically for mobile device demonstration:
-- **Zero Horizontal Overflow:** Tested using Chrome Device Emulation across **320px, 360px, 375px, 390px, 414px, and 430px** with $0\text{px}$ overflow.
-- **Smooth Hamburger Navigation:** Slide-down menu with blurred backdrop, auto-close on selection, and 48px comfortable tap targets.
-- **Compact Mobile Filter Drawer:** In the marketplace, filter controls collapse cleanly behind an *"Adjust Filters"* toggle button so users on phones immediately see food listings.
-- **Single-Column Food Cards on Mobile:** Clean vertical flow with high-resolution food imagery, clearly visible prices, and terracotta discount tags.
-- **Mobile Counter Tool:** Restaurant pickup code verification form adapts to full-width inputs for easy typing on counter tablets or smartphones.
+Restaurants, bakeries, cafes, and food carts prepare fresh meals daily. Towards closing time, safe, high-quality unsold food frequently goes to waste solely due to timing mismatch.
+
+**ZEWA** solves this through **dynamic time-decay pricing**:
+- As restaurant closing time approaches, surplus food discounts increase continuously (from ~30% up to 75% off).
+- **Core Principle:** *Food availability determines the discount, not customer demand alone.*
+- Strict **Fair Share Limit:** Max **2 units per customer per listing** prevents commercial hoarding and ensures equitable community distribution.
+- **10-Minute Inventory Reservation Hold:** Locks portions while customer finishes prepaid checkout.
+- **Prepaid Verification:** Real-time bank payment verification before dispatching kitchen orders.
+- **Eco-Delivery Partner Dispatch:** Automated nearest-partner matching with turn-by-turn Google Maps routing.
 
 ---
 
-## 📁 3. Project Folder Structure
+## 🏗️ Architecture Overview
+
+The application is structured into three clean layers:
 
 ```
-new mini project/
-├── index.html        # Complete semantic HTML structure, all views & modal dialogs
-├── style.css         # Modern design system (Natural green, soft off-white, cards, responsive)
-├── script.js         # Complete frontend application logic, state store & localStorage engine
-└── README.md         # Comprehensive project documentation & evaluation guide
+├── frontend/                     # Mobile-first frontend client (HTML5, CSS3, ES6)
+│   ├── index.html                # Single-page application with 3 platform views
+│   ├── css/
+│   │   └── style.css             # Earthy, modern design system (Instagram-like simplicity)
+│   └── js/
+│       ├── app.js                # Master coordinator, toast system & navigation
+│       ├── auth.js               # Multi-role authentication & 1-click demo switcher
+│       ├── customer.js           # Live 1s countdown timer & dynamic price decay engine
+│       ├── orders.js             # 10-min reservation hold, payments & 5-stage live tracking
+│       ├── restaurant.js         # Kitchen dashboard, stats & dynamic decay curve simulator
+│       ├── delivery.js           # Partner dashboard, duty toggle, route directions
+│       ├── maps.js               # Geolocation & Google Maps navigation generator
+│       └── supabase.js           # API client for Express backend & Supabase
+├── backend/                      # Node.js + Express.js REST API
+│   ├── config/env.js             # Environment loader
+│   ├── controllers/              # Auth, Customer, Restaurant, Order, Delivery controllers
+│   ├── middleware/               # Bearer JWT and Role-Based Access Control (RBAC)
+│   ├── routes/                   # Clean RESTful route definitions (/api/*)
+│   ├── services/
+│   │   ├── discount.service.js   # Dynamic time-decay pricing mathematical model
+│   │   ├── inventory.service.js  # Atomic inventory reservation & 2-unit limit validation
+│   │   ├── delivery.service.js   # Haversine distance & nearest-partner matching
+│   │   ├── payment.service.js    # Session signing & server-side payment verification
+│   │   └── supabase.service.js   # Live Supabase connection + high-fidelity fallback DB
+│   └── server.js                 # Express server & static asset mount
+└── database/
+    └── schema.sql                # Production PostgreSQL schema for Supabase (11 tables, RLS)
 ```
-
-> **Zero Dependencies:** No backend, database, Node modules, Firebase, or external APIs are required. Everything runs locally in any web browser and persists persistently via browser `localStorage`.
 
 ---
 
-## 🚀 4. Instructions to Run the Application
+## 👥 Three Complete User Platforms
 
-You can run ZEWA locally using **any** of the following simple methods:
+### 1. Customer Platform (`#view-customer`)
+- **Location Detection:** GPS auto-detection or Indiranagar, Bengaluru default fallback.
+- **Live Food Feed:** Real-time portions nearby with closing countdown timers.
+- **Live Dynamic Pricing:** Discounts rise automatically every second as kitchen closing time nears.
+- **Category & Dietary Filters:** Meals, Bakery, Snacks, Sweets, Beverages, and Pure Veg toggle.
+- **Purchase Restriction:** Enforces maximum **2 units per customer per listing** on both frontend and backend.
+- **10-Minute Reservation Hold:** Locks inventory temporarily during checkout.
+- **Order Tracking:** 5-step live visual stepper:
+  1. `Prepaid Verified` ➔ 2. `Order Confirmed` ➔ 3. `Kitchen Packing Food` ➔ 4. `Out for Delivery` ➔ 5. `Delivered`.
+- **Navigation:** One-click Google Maps directions to view delivery progress.
 
-### Method A: Double-Click (Zero Setup)
-1. Open the project folder on your computer.
-2. Double-click `index.html` to open it directly in Google Chrome, Microsoft Edge, Safari, or Mozilla Firefox.
+### 2. Restaurant & Food Cart Platform (`#view-restaurant`)
+- **Key Metrics:** Active listings, portions rescued, kilograms of waste prevented, and revenue earned.
+- **Add Surplus Food Modal:**
+  - Original price, starting price, minimum floor price.
+  - Category, freshness notes, closing time.
+  - **Interactive Dynamic Pricing Simulator:** Visualizes price decay curve before publishing.
+- **Inventory Management:** Instant stock controls and removal.
+- **Kitchen Order Management:** Live incoming prepaid orders with "Start Packing" and "Mark Ready for Pickup" workflow.
 
-### Method B: VS Code Live Server (Recommended for Evaluation)
-1. Open the project folder in **Visual Studio Code**.
-2. Install the **Live Server** extension (by Ritwick Dey) if not already installed.
-3. Right-click `index.html` and choose **"Open with Live Server"**.
-4. The application will launch at `http://127.0.0.1:5500`.
+### 3. Delivery Partner Platform (`#view-delivery`)
+- **Duty Toggle:** Instant Online/Offline status switch with GPS broadcaster.
+- **Trip Earnings:** Daily completed trip counter and payout tracker.
+- **Automated Assignment Card:** Displays pickup kitchen address and customer doorstep.
+- **Turn-by-Turn Navigation:** One-tap Google Maps directions directly to kitchen and customer.
+- **Workflow Steps:** "Confirm Food Picked Up from Kitchen" ➔ "Mark Order Delivered to Customer".
 
-### Method C: Python One-Line Server
-Open a terminal in the project directory and run:
+---
+
+## ⚡ 1-Click Demo Accounts (Top Switcher Bar)
+
+For immediate evaluation without manual typing, use the top bar or modal demo buttons:
+
+| Role | Demo Name | Email | Password |
+|---|---|---|---|
+| **Customer** | Aarav Sharma | `customer@zewa.demo` | `demo_password_123` |
+| **Restaurant** | Ramesh Gowda (Annapoorna Kitchen) | `restaurant@zewa.demo` | `demo_password_123` |
+| **Delivery Partner** | Karthik Raja (Eco-Rider) | `delivery@zewa.demo` | `demo_password_123` |
+
+---
+
+## 🧮 Dynamic Pricing Mathematical Formula
+
+The price decay engine runs on both the backend and client side using a non-linear convex decay model:
+
+$$\text{Time Ratio} = \max\left(0, \min\left(1, \frac{T_{\text{closing}} - T_{\text{current}}}{T_{\text{window}}}\right)\right)$$
+
+$$\text{Decay Multiplier} = (1 - \text{Time Ratio})^{1.35}$$
+
+$$\text{Current Price} = \text{round}\left(P_{\text{start}} - (P_{\text{start}} - P_{\text{min}}) \times \text{Decay Multiplier}\right)$$
+
+- Early in the window, price stays near $P_{\text{start}}$ (~30–40% discount).
+- Towards the final 45–60 minutes, the curve accelerates towards $P_{\text{min}}$ (up to 70–75% discount) to incentivize immediate customer rescue.
+
+---
+
+## 🛡️ Anti-Hoarding & Fair Share Rule
+
+To prevent commercial bulk buying and ensure fair community distribution:
+- **Per-Listing Limit:** Each customer can purchase a maximum of **2 units** per surplus food listing within a 12-hour window.
+- **Enforcement:**
+  - Evaluated on backend during inventory reservation (`inventory.service.js`).
+  - Evaluated on frontend in quantity steppers (`customer.js`).
+  - Active temporary reservations count towards the 2-unit limit.
+
+---
+
+## 🚀 Quickstart & Local Setup
+
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm
+
+### 1. Install Dependencies
 ```bash
-python3 -m http.server 8000
+npm install
 ```
-Open `http://localhost:8000` in your browser.
+
+### 2. Start Application Server
+```bash
+npm start
+```
+The server will boot at **`http://localhost:5000`**.
+Open your browser to `http://localhost:5000` to interact with the full application!
+
+### 3. Optional: Connect Live Supabase Database
+By default, ZEWA includes a resilient local database pre-seeded with sample restaurants, surplus foods, and demo users.
+To connect a live Supabase project:
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Run `database/schema.sql` in your Supabase SQL Editor.
+3. Add your `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to `.env`.
+4. Restart the server.
 
 ---
 
-## 🔑 5. Demo Login Credentials
+## 🧪 Automated Testing
 
-For quick evaluation and faculty demonstrations, ZEWA includes **1-Click Demo Buttons** at the top bar and inside the login modal, so you don't even have to type passwords.
-
-### Customer Account
-- **Role:** Customer / College Student
-- **Email:** `customer@zewa.in`
-- **Password:** `pass123`
-- **Demo Persona:** Aarav Sharma (Bengaluru)
-- **Features to Demo:** Browse marketplace, filter/search meals, reserve surplus mystery bags, select payment option, get unique pickup code (`ZEWA-XXXX`) with QR representation, view active pickups & history, cancel reservations, edit profile.
-
-### Restaurant Partner Account
-- **Role:** Restaurant Partner / Eatery Owner
-- **Email:** `greenbistro@zewa.in`
-- **Password:** `pass123`
-- **Demo Persona:** Chef Priya Patel (The Green Bistro, Indiranagar)
-- **Features to Demo:** Add surplus food listing with auto-calculated discount %, stock management (+/- portions), mark as sold out, manage reservations table, and verify customer pickup codes using the **Counter Verification Tool**.
+ZEWA includes an end-to-end integration test suite verifying the complete lifecycle:
+```bash
+node test_e2e.js
+```
+The test verifies:
+1. Customer authentication and session persistence.
+2. Dynamic pricing calculation and countdown accuracy.
+3. Strict 2-unit purchase restriction enforcement (rejects 3 units).
+4. 10-minute inventory reservation hold.
+5. Online payment session signing and server-side verification.
+6. Order dispatch to restaurant kitchen.
+7. Delivery assignment, pickup confirmation, and completed delivery.
 
 ---
 
-## ✨ 6. Complete List of Implemented Features
-
-### 🌟 Landing Page
-- **Clean Nature-Inspired Design:** Deep forest green, olive, warm cream, soft beige, and terracotta accents.
-- **Hero Section:** Value proposition *"Save Food. Save Money. Save Our Planet."*, interactive stat pills, and live featured food card.
-- **Live Environmental Impact Ribbon:** Dynamic counters for Meals Rescued, Waste Prevented (kg), Carbon Avoided (kg CO₂e), and Customer Money Saved (₹).
-- **Featured Surplus Picks:** Live high-discount meal bags rendered directly from the local store.
-- **How ZEWA Works:** Interactive toggle between **Customer Journey** and **Restaurant Journey**.
-- **Benefits Section:** Detailed comparison columns for conscious consumers vs. commercial food businesses.
-- **Testimonials:** Verified feedback from students, chefs, and eco-conscious residents.
-
-### 🍱 Explore Food Marketplace
-- **Multi-Facet Filtering:**
-  - **Live Search:** Instant matching against food title, description, category, and restaurant name.
-  - **Category Chips:** All, Meals & Thalis, Bakery & Pastry, Healthy & Salads, Desserts & Sweets, Snacks, Fresh Produce.
-  - **Dietary Filter:** Pure Vegetarian (🟢) vs. Non-Vegetarian (🔴).
-  - **Price Range Slider:** Filter surplus prices from ₹50 up to ₹600.
-  - **Distance Slider:** Filter radius from 1 km to 15 km.
-  - **Sorting Options:** Highest Discount %, Price: Low to High, Nearest Proximity, Ending Soonest.
-  - **Empty State:** Friendly reset button when zero items match filters.
-- **Rich Food Cards:** Image, discount badge (`65% OFF`), diet badge, distance, pickup window (`19:30 – 21:30`), stock warning (`Only 2 bags left`), original vs. discounted prices, and instant action buttons.
-
-### 🔍 Interactive Food Details & Live Quantity Calculator
-- High-resolution food showcase with ingredient lists and freshness/expiry instructions.
-- Restaurant address and pickup guidelines.
-- **Interactive Quantity Selector (+ / -):** Real-time price recalculation that prevents exceeding remaining surplus stock.
-
-### 💳 Simulated Checkout & Tamper-Proof Pickup Code Generation
-- Step-by-step modal reviewing items, portions, and waste-reduction subsidy.
-- Simulated payment options: **UPI / QR (GPay/PhonePe)**, **Card**, **Pay on Pickup Counter**, and **ZEWA Eco-Coins**.
-- **Confirmation Screen:**
-  - Animated green checkmark celebration.
-  - Unique Pickup Code (e.g., `ZEWA-8492`).
-  - Encrypted QR code visual graphic.
-  - Unique Booking ID (e.g., `#ZW-2026-9041`).
-  - Automatic deduction of food stock from marketplace.
-  - Instant addition to Customer Orders and Restaurant Reservations.
-
-### 👤 Customer Dashboard
-- Overview metrics: Total Reservations, Active Pickups, Total Money Saved, Waste Diverted (kg).
-- **Active Pickups Tab:** Large monospace pickup code display, collection countdown, restaurant location, and "Cancel Booking" option (which automatically restores stock).
-- **Reservation History Tab:** Record of completed and cancelled orders with receipts and environmental badges.
-- **Customer Profile:** Edit personal details (name, phone, email, neighborhood) and choose from profile avatars.
-
-### 🏪 Restaurant Partner Dashboard
-- Overview metrics: Active Food Listings, Pending Pickups, Completed Pickups, Recovered Revenue (₹), Food Rescued (kg).
-- **Quick Pickup Code Verifier Tool:** Counter tool where the restaurant inputs the customer's pickup code (e.g. `ZEWA-8492`), validates it, and marks the meal as collected in real-time, incrementing revenue and updating sustainability statistics.
-- **Manage Food Listings Table:** Live stock adjustment (`+` and `-` buttons), Edit listing modal, Mark as Sold Out, and Delete listing.
-- **Add Surplus Listing Form:**
-  - Title, category, description, dietary type.
-  - **Auto-Calculated Discount:** Typing original price (`₹500`) and surplus price (`₹175`) automatically calculates and displays `65% OFF` and total customer savings live.
-  - Curated food image presets selector (Bakery, Biryani, Pizza, Salads, Desserts, Breakfast) or custom image URL input.
-  - Pickup start/end windows and safe consumption deadline.
-  - Required Food Safety & Hygiene compliance declaration.
-- **Incoming Customer Reservations Table:** Real-time customer list, quantities, pickup codes, and verification triggers.
-- **Restaurant Profile:** Edit kitchen address, chef name, cuisine tags, and contact numbers.
-
-### 🗺️ Geolocation Discovery / Interactive Visual Map
-- Stylized vector SVG city map simulation (Indiranagar / Bengaluru) featuring roads, parks, Ulsoor Lake, metro lines, and user location radar.
-- Clickable restaurant pins with active bag count badges.
-- Clicking any pin displays a preview card on the sidebar with the restaurant's photo, address, rating, and direct surplus bags available for reservation.
-
-### 🌱 Sustainability & Impact Tracker (SDG 12)
-- Environmental impact formula: 1 meal ≈ 0.6 kg food waste diverted ≈ 1.5 kg CO₂e emissions avoided.
-- Interactive personal footprint calculator: Adjust weekly rescued meals to view yearly kg saved, CO₂ avoided, money saved, and equivalent mature trees planted.
-- Zero-waste restaurant partner leaderboard.
-
----
-
-## 🔮 7. Future Backend Roadmap (What Backend/API Would Add)
-
-For a production deployment after the college mini-project phase, the following features would be connected to a real server and database:
-
-1. **Production Database & API:** Replace `localStorage` with PostgreSQL/MongoDB and REST/GraphQL APIs (Node.js/Express, Python/FastAPI, or Go) to sync inventory in real time across different devices.
-2. **Real Authentication & Security:** JWT tokens, OAuth2 (Google Sign-In), password hashing (bcrypt/argon2), and role-based access control (RBAC).
-3. **Payment Gateway Integration:** Razorpay / Stripe API for actual UPI, net banking, and card processing.
-4. **Live GPS & Real Maps API:** Google Maps Platform / Mapbox SDK for real-time customer geofencing, route directions, and live distance calculations.
-5. **Real-time WebSockets / Push Notifications:** Notify customers when their favorite nearby bakery lists surplus food, and send SMS/WhatsApp alerts when pickup windows open.
-6. **Hardware QR Scanner:** Camera-based barcode/QR code scanning using device cameras at restaurant checkout counters.
-7. **FSSAI Automated Compliance:** Verification APIs to automatically check food business licenses and cold-storage compliance certificates.
+## 📄 License
+MIT License. Created for the ZEWA Zero Waste Initiative.

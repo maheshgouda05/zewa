@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#1E3A2F">
+  <meta name="description" content="ZEWA (Zero Waste) - India's dynamic food surplus marketplace connecting restaurants, nearby consumers, and eco-delivery partners to stop food waste.">
+  <title>ZEWA • Zero Waste Food Surplus Marketplace</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans for a clean, human, modern aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       TOP DEMO ROLE SWITCHER BAR (Evaluation Convenience)
+       ========================================================================= -->
+  <div class="demo-role-bar">
+    <div class="demo-role-container">
+      <span class="demo-label">⚡ Switch Live Role:</span>
+      <div class="demo-pills">
+        <button class="role-pill active" data-switch-role="customer">
+          <span class="role-icon">👤</span> Customer (Aarav)
+        </button>
+        <button class="role-pill" data-switch-role="restaurant">
+          <span class="role-icon">🏬</span> Kitchen (Annapoorna)
+        </button>
+        <button class="role-pill" data-switch-role="delivery">
+          <span class="role-icon">🛵</span> Delivery (Karthik)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       APPLICATION HEADER
+       ========================================================================= -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-brand" onclick="window.zewaApp.switchView('customer')">
+        <div class="brand-logo-mark">🌱</div>
+        <div class="brand-text">
+          <span class="brand-title">ZEWA</span>
+          <span class="brand-subtitle">ZERO WASTE MARKETPLACE</span>
+        </div>
+      </div>
+
+      <div class="header-location" id="header-location-picker" title="Click to refresh location">
+        <span class="loc-pin">📍</span>
+        <div class="loc-details">
+          <span class="loc-label">Surplus Near</span>
+          <span class="loc-name" id="current-location-text">Indiranagar, Bengaluru</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div id="header-user-badge">
+          <!-- Injected via auth.js -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main class="main-content">
+
+    <!-- ---------------------------------------------------------------------
+         VIEW 1: CUSTOMER MARKETPLACE (Default)
+         --------------------------------------------------------------------- -->
+    <section id="view-customer" class="app-view active">
+      <!-- Hero Banner -->
+      <div class="customer-hero">
+        <div class="hero-content">
+          <span class="hero-tag">✨ Real-Time Dynamic Pricing</span>
+          <h1>Fresh Surplus Food.<br>Discounts Rise as Closing Time Nears.</h1>
+          <p>Local kitchens discount safe unsold portions before closing. Order before the timer runs out to save food and money!</p>
+          <div class="hero-highlight-pill" id="stat-available-count">
+            Loading surplus portions...
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="feed-controls-wrap">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-food" placeholder="Search by dish or kitchen..." autocomplete="off">
+        </div>
+
+        <div class="filter-actions-row">
+          <label class="toggle-pill">
+            <input type="checkbox" id="filter-pure-veg">
+            <span class="pill-badge veg-indicator">🌱 Pure Veg</span>
+          </label>
+        </div>
+
+        <!-- Category Horizontal Scroll Bar -->
+        <div class="category-scroll-bar">
+          <button class="cat-pill active" data-category="all">🍽️ All Surplus</button>
+          <button class="cat-pill" data-category="Meals">🍛 Meals &amp; Rice</button>
+          <button class="cat-pill" data-category="Bakery">🥐 Bakery &amp; Breads</button>
+          <button class="cat-pill" data-category="Snacks">🥟 Snacks &amp; Starters</button>
+          <button class="cat-pill" data-category="Sweets">🍯 Sweets &amp; Desserts</button>
+          <button class="cat-pill" data-category="Beverages">🧃 Beverages</button>
+        </div>
+      </div>
+
+      <!-- Feed Grid -->
+      <div class="feed-grid-container">
+        <div class="feed-grid" id="food-feed-grid">
+          <div class="feed-loading">
+            <div class="spinner"></div>
+            <p>Fetching freshly listed surplus portions near you...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         VIEW 2: CUSTOMER ORDER HISTORY
+         --------------------------------------------------------------------- -->
+    <section id="view-customer-orders" class="app-view">
+      <div class="view-header">
+        <h2>My Rescued Meals</h2>
+        <p class="text-muted">Track active deliveries and review your food-saving history.</p>
+      </div>
+
+      <div class="orders-list-container" id="customer-orders-list">
+        <div class="feed-loading">
+          <div class="spinner"></div>
+          <p>Loading your orders...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         VIEW 3: RESTAURANT / KITCHEN PLATFORM
+         --------------------------------------------------------------------- -->
+    <section id="view-restaurant" class="app-view">
+      <div class="restaurant-header-banner">
+        <div class="rest-profile-info">
+          <h2 id="rest-name">Annapoorna Kitchen</h2>
+          <p id="rest-address" class="text-muted">📍 Indiranagar, Bengaluru</p>
+        </div>
+        <div class="rest-header-actions">
+          <button class="btn btn-primary btn-sm" id="btn-open-add-food">
+            + List Surplus Food
+          </button>
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-icon">🍲</span>
+          <div class="metric-val" id="rest-stat-active-items">0</div>
+          <span class="metric-label">Active Listings</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-icon">🌱</span>
+          <div class="metric-val" id="rest-stat-portions-rescued">0</div>
+          <span class="metric-label">Portions Rescued</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-icon">⚖️</span>
+          <div class="metric-val" id="rest-stat-waste-prevented">0 kg</div>
+          <span class="metric-label">Waste Prevented</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-icon">💰</span>
+          <div class="metric-val" id="rest-stat-revenue">₹0</div>
+          <span class="metric-label">Surplus Revenue</span>
+        </div>
+      </div>
+
+      <!-- Dashboard Sections: Incoming Kitchen Orders & Inventory -->
+      <div class="dashboard-split-layout">
+        <div class="dash-column">
+          <div class="column-header">
+            <h3>Incoming Paid Orders</h3>
+            <span class="badge badge-accent">Real-time</span>
+          </div>
+          <div id="rest-orders-list" class="orders-queue-list">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <div class="dash-column">
+          <div class="column-header">
+            <h3>Active Surplus Inventory</h3>
+            <span class="text-muted text-sm">Dynamic pricing applied</span>
+          </div>
+          <div id="rest-inventory-list" class="inventory-queue-list">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         VIEW 4: DELIVERY PARTNER PLATFORM
+         --------------------------------------------------------------------- -->
+    <section id="view-delivery" class="app-view">
+      <div class="delivery-partner-header">
+        <div class="partner-meta-row">
+          <div>
+            <h2 id="delivery-partner-name">Karthik Raja</h2>
+            <p id="delivery-partner-vehicle" class="text-muted">🛵 Electric Scooter • Eco-Rider</p>
+          </div>
+          <div class="duty-toggle-wrap">
+            <label class="switch">
+              <input type="checkbox" id="delivery-online-toggle" checked>
+              <span class="slider round"></span>
+            </label>
+            <span id="delivery-status-label" class="status-pill status-online">Online</span>
+          </div>
+        </div>
+
+        <div class="delivery-stats-row">
+          <div class="del-stat-chip">
+            <span class="label">Completed Trips:</span>
+            <strong id="delivery-stat-trips">0</strong>
+          </div>
+          <div class="del-stat-chip">
+            <span class="label">Today's Earnings:</span>
+            <strong id="delivery-stat-earnings">₹0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="assignment-section">
+        <h3 class="section-heading">Assigned Delivery Route</h3>
+        <div id="delivery-active-assignment">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       FLOATING CART SUMMARY BAR (Customer)
+       ========================================================================= -->
+  <aside id="floating-cart-bar" class="floating-cart-bar">
+    <!-- Injected via customer.js -->
+  </aside>
+
+  <!-- =========================================================================
+       BOTTOM NAVIGATION BAR (Mobile First)
+       ========================================================================= -->
+  <nav class="bottom-nav-bar">
+    <button class="bottom-nav-item active" data-view="customer">
+      <span class="nav-icon">🍽️</span>
+      <span class="nav-label">Surplus Food</span>
+    </button>
+    <button class="bottom-nav-item" data-view="customer-orders">
+      <span class="nav-icon">📦</span>
+      <span class="nav-label">My Orders</span>
+    </button>
+    <button class="bottom-nav-item" data-view="restaurant">
+      <span class="nav-icon">🏬</span>
+      <span class="nav-label">Kitchen</span>
+    </button>
+    <button class="bottom-nav-item" data-view="delivery">
+      <span class="nav-icon">🛵</span>
+      <span class="nav-label">Eco-Rider</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================================
+       MODAL 1: CHECKOUT & 10-MINUTE RESERVATION HOLD
+       ========================================================================= -->
+  <div class="modal-base" id="modal-checkout">
+    <div class="modal-overlay"></div>
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="header-hold-badge">
+          <span>⏳ Reserved for</span>
+          <strong id="checkout-timer-countdown">10:00</strong>
+        </div>
+        <button class="btn-close" data-close-modal aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="checkout-order-summary">
+          <!-- Injected via orders.js -->
+        </div>
+
+        <div class="checkout-form-section">
+          <h4>Delivery Destination</h4>
+          <div class="form-group">
+            <label for="checkout-delivery-address">Doorstep Address (Indiranagar, Bengaluru)</label>
+            <input type="text" id="checkout-delivery-address" class="input-text" placeholder="House / Flat No., Street, Landmark">
+          </div>
+          <div class="form-group">
+            <label for="checkout-delivery-notes">Delivery Instructions (Optional)</label>
+            <input type="text" id="checkout-delivery-notes" class="input-text" placeholder="e.g. Ring bell, leave with security">
+          </div>
+
+          <h4>Payment Mode (Simulated Gateway)</h4>
+          <div class="payment-methods-grid">
+            <label class="pay-option active">
+              <input type="radio" name="pay_mode" value="upi" checked>
+              <div class="pay-option-content">
+                <span class="pay-icon">📱</span>
+                <div>
+                  <strong>UPI Fast Checkout</strong>
+                  <p class="text-sm">GPay / PhonePe / Paytm</p>
+                </div>
+              </div>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="pay_mode" value="card">
+              <div class="pay-option-content">
+                <span class="pay-icon">💳</span>
+                <div>
+                  <strong>Debit / Credit Card</strong>
+                  <p class="text-sm">Instant secure processing</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-accent btn-block" id="btn-confirm-payment">
+          🔒 Pay Online &amp; Confirm Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: LIVE ORDER TRACKING (5-STAGE STEPPER)
+       ========================================================================= -->
+  <div class="modal-base" id="modal-order-tracking">
+    <div class="modal-overlay"></div>
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div>
+          <h3>Live Order Tracking</h3>
+          <p class="text-muted text-sm">Order ID: <strong id="track-order-number">ZW-000000</strong></p>
+        </div>
+        <button class="btn-close" onclick="window.zewaOrders.closeOrderTracking()" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 5-Stage Stepper -->
+        <div class="stepper-timeline">
+          <div class="stepper-step completed" id="step-paid">
+            <div class="step-indicator">✓</div>
+            <div class="step-text">
+              <strong>Prepaid Verified</strong>
+              <p>Payment secured on server</p>
+            </div>
+          </div>
+          <div class="stepper-step active" id="step-confirmed">
+            <div class="step-indicator">2</div>
+            <div class="step-text">
+              <strong>Order Confirmed</strong>
+              <p>Kitchen accepted food order</p>
+            </div>
+          </div>
+          <div class="stepper-step pending" id="step-preparing">
+            <div class="step-indicator">3</div>
+            <div class="step-text">
+              <strong>Kitchen Packing Food</strong>
+              <p>Fresh insulated packaging</p>
+            </div>
+          </div>
+          <div class="stepper-step pending" id="step-out_for_delivery">
+            <div class="step-indicator">4</div>
+            <div class="step-text">
+              <strong>Out for Delivery</strong>
+              <p>Eco-Rider en route to your location</p>
+            </div>
+          </div>
+          <div class="stepper-step pending" id="step-delivered">
+            <div class="step-indicator">5</div>
+            <div class="step-text">
+              <strong>Delivered</strong>
+              <p>Food saved from waste!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assigned Partner Details & Directions -->
+        <div id="track-partner-details" class="partner-tracking-card">
+          <!-- Injected via orders.js -->
+        </div>
+
+        <div class="track-items-summary mt-3">
+          <h4>Order Items</h4>
+          <div id="track-order-items"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-block" onclick="window.zewaOrders.closeOrderTracking()">
+          Close Tracking
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: RESTAURANT ADD SURPLUS FOOD (With Dynamic Pricing Simulator)
+       ========================================================================= -->
+  <div class="modal-base" id="modal-add-food">
+    <div class="modal-overlay"></div>
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div>
+          <h3>List Surplus Food</h3>
+          <p class="text-muted text-sm">Discounts will automatically increase towards closing time.</p>
+        </div>
+        <button class="btn-close" id="btn-close-add-food" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="form-add-food" class="modal-body">
+        <div class="form-group">
+          <label for="food-name">Food Dish Name *</label>
+          <input type="text" name="name" id="food-name" class="input-text" placeholder="e.g. South Indian Thali Special" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="food-category">Category *</label>
+            <select name="category" id="food-category" class="input-text" required>
+              <option value="Meals">Meals &amp; Rice</option>
+              <option value="Bakery">Bakery &amp; Breads</option>
+              <option value="Snacks">Snacks &amp; Starters</option>
+              <option value="Sweets">Sweets &amp; Desserts</option>
+              <option value="Beverages">Beverages</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="food-veg">Dietary Type *</label>
+            <select name="is_veg" id="food-veg" class="input-text" required>
+              <option value="true">🌱 Pure Veg</option>
+              <option value="false">🍗 Non-Veg</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="food-desc">Description</label>
+          <textarea name="description" id="food-desc" class="input-text" rows="2" placeholder="Describe the freshly cooked surplus meal..."></textarea>
+        </div>
+
+        <!-- Dynamic Decay Pricing Parameters -->
+        <div class="pricing-config-box">
+          <h4>Dynamic Time-Decay Pricing</h4>
+          <div class="form-row three-col">
+            <div class="form-group">
+              <label for="form-orig-price">Original Price (₹) *</label>
+              <input type="number" name="original_price" id="form-orig-price" class="input-text" value="200" min="10" required>
+            </div>
+            <div class="form-group">
+              <label for="form-start-price">Starting Price (₹) *</label>
+              <input type="number" name="starting_price" id="form-start-price" class="input-text" value="140" min="10" required>
+            </div>
+            <div class="form-group">
+              <label for="form-min-price">Minimum Floor (₹) *</label>
+              <input type="number" name="min_price" id="form-min-price" class="input-text" value="70" min="5" required>
+            </div>
+          </div>
+
+          <div class="simulator-label">Simulated Price Over Time:</div>
+          <div id="pricing-decay-preview" class="decay-preview-bar">
+            <!-- Injected via restaurant.js -->
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="food-qty">Available Portions *</label>
+            <input type="number" name="available_quantity" id="food-qty" class="input-text" value="6" min="1" max="50" required>
+          </div>
+          <div class="form-group">
+            <label for="food-closing">Closing Time Today *</label>
+            <input type="time" name="closing_time" id="food-closing" class="input-text" value="22:30" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="food-freshness">Freshness &amp; Preparation Note</label>
+          <input type="text" name="freshness_notes" id="food-freshness" class="input-text" value="Cooked at 1:30 PM, stored in insulated warm containers" placeholder="e.g. Packed fresh 1 hr ago">
+        </div>
+
+        <div class="form-group">
+          <label for="food-image">Photo URL (Unsplash or Food Link)</label>
+          <input type="url" name="image_url" id="food-image" class="input-text" value="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80">
+        </div>
+
+        <div class="modal-footer-inside mt-3">
+          <button type="submit" class="btn btn-primary btn-block">Publish Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: AUTHENTICATION (Login / Registration)
+       ========================================================================= -->
+  <div class="modal-base" id="modal-auth">
+    <div class="modal-overlay"></div>
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab-btn active" id="tab-auth-login">Log In</button>
+          <button type="button" class="auth-tab-btn" id="tab-auth-register">Register</button>
+        </div>
+        <button class="btn-close" id="btn-close-auth" aria-label="Close modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 1-Click Fast Demo Logins -->
+        <div class="fast-demo-section">
+          <span class="demo-badge">1-Click Fast Demo Switch:</span>
+          <div class="demo-buttons-grid">
+            <button type="button" class="btn btn-outline btn-sm" onclick="window.zewaAuth.loginWithDemo('customer')">
+              👤 Customer
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="window.zewaAuth.loginWithDemo('restaurant')">
+              🏬 Kitchen
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="window.zewaAuth.loginWithDemo('delivery')">
+              🛵 Delivery Partner
+            </button>
+          </div>
+        </div>
+
+        <form id="form-auth" data-mode="login">
+          <div class="form-group register-only" style="display: none;">
+            <label for="auth-name">Full Name</label>
+            <input type="text" name="full_name" id="auth-name" class="input-text" placeholder="Your name">
+          </div>
+
+          <div class="form-group register-only" style="display: none;">
+            <label for="auth-role">I am joining as</label>
+            <select name="role" id="auth-role" class="input-text">
+              <option value="customer">Customer (Food Buyer)</option>
+              <option value="restaurant">Restaurant / Food Cart Owner</option>
+              <option value="delivery_partner">Eco-Delivery Partner</option>
+            </select>
+          </div>
+
+          <div class="form-group register-only" style="display: none;">
+            <label for="auth-phone">Phone Number</label>
+            <input type="tel" name="phone" id="auth-phone" class="input-text" placeholder="10-digit mobile number">
+          </div>
+
+          <div class="form-group">
+            <label for="auth-email">Email Address</label>
+            <input type="email" name="email" id="auth-email" class="input-text" placeholder="you@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="auth-password">Password</label>
+            <input type="password" name="password" id="auth-password" class="input-text" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block mt-3">Log In</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- =========================================================================
+       APPLICATION SCRIPTS
+       ========================================================================= -->
+  <script src="js/supabase.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/customer.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/restaurant.js"></script>
+  <script src="js/delivery.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

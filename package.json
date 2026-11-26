@@ -1,0 +1,30 @@
+{
+  "name": "zewa-food-surplus-marketplace",
+  "version": "2.0.0",
+  "description": "ZEWA - Zero Waste Food Surplus Marketplace Platform with Dynamic Discounts, Inventory Protection, and Delivery Partner Management",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "test": "node test_e2e.js"
+  },
+  "keywords": [
+    "zero-waste",
+    "food-surplus",
+    "marketplace",
+    "dynamic-discount",
+    "sustainability",
+    "delivery",
+    "restaurant",
+    "supabase",
+    "express"
+  ],
+  "author": "ZEWA Team",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
