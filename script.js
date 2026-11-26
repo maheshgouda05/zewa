@@ -1,8 +1,7 @@
 /**
  * ============================================================================
- * ZEWA (Zero Waste) - Surplus Food Marketplace Prototype
- * Complete Frontend Application Logic & LocalStorage State Management
- * Second-Year Engineering Mini Project
+ * ZEWA (Zero Waste) - Surplus Food Marketplace
+ * Client-Side Hyperlocal Food Redistribution Network
  * ============================================================================
  */
 
@@ -28,7 +27,7 @@
       name: 'The Green Bistro',
       owner: 'Chef Priya Patel',
       phone: '+91 98123 45678',
-      email: 'greenbistro@zewa.demo',
+      email: 'greenbistro@zewa.in',
       address: '12th Main, 100ft Road, Indiranagar, Bengaluru',
       cuisines: 'Continental, Healthy Bowls, European',
       rating: 4.8,
@@ -41,7 +40,7 @@
       name: 'Sunrise Artisan Bakery',
       owner: 'Marco D’Souza',
       phone: '+91 98234 56789',
-      email: 'sunrise@zewa.demo',
+      email: 'sunrise@zewa.in',
       address: 'CMH Road, Near Metro Station, Indiranagar, Bengaluru',
       cuisines: 'Bakery, French Patisserie, Coffee',
       rating: 4.9,
@@ -54,7 +53,7 @@
       name: 'Spice Route Kitchen',
       owner: 'Kavita Nair',
       phone: '+91 98345 67890',
-      email: 'spiceroute@zewa.demo',
+      email: 'spiceroute@zewa.in',
       address: 'Defence Colony, Indiranagar, Bengaluru',
       cuisines: 'North Indian, Mughlai, Biryani',
       rating: 4.7,
@@ -67,7 +66,7 @@
       name: 'Urban Fresh Cafe & Salads',
       owner: 'Aditya Roy',
       phone: '+91 98456 78901',
-      email: 'urbanfresh@zewa.demo',
+      email: 'urbanfresh@zewa.in',
       address: '100ft Road, Opposite Toit, Indiranagar, Bengaluru',
       cuisines: 'Organic Salads, Cold Pressed Juices, Wraps',
       rating: 4.8,
@@ -80,7 +79,7 @@
       name: 'Sweet Treat Delights',
       owner: 'Farhan Akhtar',
       phone: '+91 98567 89012',
-      email: 'sweettreat@zewa.demo',
+      email: 'sweettreat@zewa.in',
       address: 'HAL 2nd Stage, Indiranagar, Bengaluru',
       cuisines: 'Pastries, Belgian Chocolates, Desserts',
       rating: 4.9,
@@ -93,7 +92,7 @@
       name: 'Dakshin Delicacy',
       owner: 'Ramanathan Iyer',
       phone: '+91 98678 90123',
-      email: 'dakshin@zewa.demo',
+      email: 'dakshin@zewa.in',
       address: 'Double Road, Indiranagar, Bengaluru',
       cuisines: 'South Indian, Traditional Meals, Filter Coffee',
       rating: 4.6,
@@ -108,7 +107,7 @@
     {
       id: 'user-cust-1',
       name: 'Aarav Sharma',
-      email: 'customer@zewa.demo',
+      email: 'customer@zewa.in',
       password: 'pass123',
       role: 'customer',
       phone: '+91 98765 43210',
@@ -122,7 +121,7 @@
       name: 'Chef Priya Patel',
       restaurantName: 'The Green Bistro',
       restaurantId: 'rest-1',
-      email: 'greenbistro@zewa.demo',
+      email: 'greenbistro@zewa.in',
       password: 'pass123',
       role: 'restaurant',
       phone: '+91 98123 45678',
@@ -348,7 +347,7 @@
       restaurantName: 'The Green Bistro',
       restaurantAddress: '12th Main, 100ft Road, Indiranagar',
       customerName: 'Aarav Sharma',
-      customerEmail: 'customer@zewa.demo',
+      customerEmail: 'customer@zewa.in',
       customerPhone: '+91 98765 43210',
       quantity: 1,
       unitPrice: 159,
@@ -371,7 +370,7 @@
       restaurantName: 'The Green Bistro',
       restaurantAddress: '12th Main, 100ft Road, Indiranagar',
       customerName: 'Aarav Sharma',
-      customerEmail: 'customer@zewa.demo',
+      customerEmail: 'customer@zewa.in',
       customerPhone: '+91 98765 43210',
       quantity: 2,
       unitPrice: 189,
@@ -608,8 +607,10 @@
       }
     });
 
-    // Close mobile nav drawer if open
-    document.getElementById('main-navigation').classList.remove('mobile-open');
+    // Close mobile nav drawer & backdrop if open
+    document.getElementById('main-navigation')?.classList.remove('mobile-open');
+    document.getElementById('mobile-menu-toggle')?.classList.remove('active');
+    document.getElementById('mobile-nav-backdrop')?.classList.remove('active');
 
     // Smooth scroll to top of view
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -699,7 +700,7 @@
     }
 
     if (foundUser.password !== password) {
-      showToast('Incorrect password. Demo password is pass123', 'error');
+      showToast('Incorrect password. Default test password is pass123', 'error');
       return false;
     }
 
@@ -922,6 +923,15 @@
       });
     });
 
+    container.querySelectorAll('.food-card-thumb-wrap, .food-card-title').forEach(el => {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => {
+        const card = el.closest('.food-card');
+        const id = card?.getAttribute('data-id');
+        if (id) openFoodDetailsModal(id);
+      });
+    });
+
     container.querySelectorAll('.btn-reserve-card').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.currentTarget.getAttribute('data-id');
@@ -1065,9 +1075,9 @@
   // 9. SIMULATED CHECKOUT & PICKUP CONFIRMATION FLOW
   // --------------------------------------------------------------------------
   function openCheckoutModal(item, quantity = 1) {
-    // If not logged in, prompt user to log in or use 1-click customer demo
+    // If not logged in, prompt user to log in or use 1-click customer login
     if (!AppState.currentUser) {
-      showToast('Please sign in or use 1-Click Demo to reserve food', 'info');
+      showToast('Please sign in or use one-click access to reserve food', 'info');
       openModal('modal-auth');
       return;
     }
@@ -1147,7 +1157,7 @@
       </div>
 
       <p style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 1.5rem; text-align: center;">
-        🔒 <em>Demo Model: No real financial transaction will occur. Confirmed booking will instantly generate an encrypted pickup code.</em>
+        🔒 <em>Instant Reservation • Zero transaction fees • Secure pickup code generated immediately.</em>
       </p>
 
       <button type="button" class="btn btn-primary btn-block btn-lg" id="btn-submit-booking">
@@ -2097,19 +2107,19 @@
   document.addEventListener('DOMContentLoaded', () => {
     // Top Bar Quick Actions
     document.getElementById('btn-quick-customer')?.addEventListener('click', () => {
-      handleLogin('customer@zewa.demo', 'pass123');
+      handleLogin('customer@zewa.in', 'pass123');
     });
 
     document.getElementById('btn-quick-restaurant')?.addEventListener('click', () => {
-      handleLogin('greenbistro@zewa.demo', 'pass123');
+      handleLogin('greenbistro@zewa.in', 'pass123');
     });
 
     document.getElementById('btn-reset-demo-data')?.addEventListener('click', () => {
-      confirmAction('Reset Demo Data', 'This will restore all sample food listings, orders, and demo accounts to their initial state.', () => {
+      confirmAction('Reset Marketplace Data', 'This will restore all sample food listings, orders, and partner accounts to their initial state.', () => {
         Store.init(true);
         AppState.currentUser = null;
         updateAuthUI();
-        showToast('Demo data successfully restored to initial state!', 'success');
+        showToast('Marketplace data successfully restored to default state!', 'success');
         window.location.hash = 'home';
         navigateTo('home');
       });
@@ -2128,11 +2138,37 @@
       });
     });
 
-    // Mobile Hamburger Menu
+    // Mobile Hamburger Menu & Backdrop
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mainNav = document.getElementById('main-navigation');
-    mobileMenuToggle?.addEventListener('click', () => {
-      mainNav.classList.toggle('mobile-open');
+    const mobileBackdrop = document.getElementById('mobile-nav-backdrop');
+
+    const toggleMobileMenu = (forceClose = false) => {
+      if (forceClose) {
+        mainNav?.classList.remove('mobile-open');
+        mobileMenuToggle?.classList.remove('active');
+        mobileBackdrop?.classList.remove('active');
+      } else {
+        const isOpen = mainNav?.classList.toggle('mobile-open');
+        mobileMenuToggle?.classList.toggle('active', isOpen);
+        mobileBackdrop?.classList.toggle('active', isOpen);
+      }
+    };
+
+    mobileMenuToggle?.addEventListener('click', () => toggleMobileMenu());
+    mobileBackdrop?.addEventListener('click', () => toggleMobileMenu(true));
+
+    // Mobile Filter Drawer Toggle in Marketplace
+    const mobileFilterBtn = document.getElementById('btn-toggle-filters-mobile');
+    const filterDrawer = document.querySelector('.filter-controls-drawer');
+    const filterCaret = document.getElementById('filter-toggle-caret');
+
+    mobileFilterBtn?.addEventListener('click', () => {
+      const isOpen = filterDrawer?.classList.toggle('mobile-open');
+      mobileFilterBtn?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (filterCaret) {
+        filterCaret.textContent = isOpen ? '▲' : '▼';
+      }
     });
 
     // City Selector Dropdown
@@ -2238,11 +2274,11 @@
 
     // Auth 1-Click Demo Buttons inside Modal
     document.getElementById('demo-auth-customer')?.addEventListener('click', () => {
-      handleLogin('customer@zewa.demo', 'pass123');
+      handleLogin('customer@zewa.in', 'pass123');
     });
 
     document.getElementById('demo-auth-restaurant')?.addEventListener('click', () => {
-      handleLogin('greenbistro@zewa.demo', 'pass123');
+      handleLogin('greenbistro@zewa.in', 'pass123');
     });
 
     // Auth Tabs Switch: Login vs Register
@@ -2276,7 +2312,7 @@
       roleRest.classList.remove('active');
       regAddressGroup.classList.add('hidden');
       regNameLabel.textContent = 'Full Name *';
-      document.getElementById('login-email').placeholder = 'e.g. customer@zewa.demo';
+      document.getElementById('login-email').placeholder = 'e.g. customer@zewa.in';
     });
 
     roleRest?.addEventListener('click', () => {
@@ -2284,7 +2320,7 @@
       roleCust.classList.remove('active');
       regAddressGroup.classList.remove('hidden');
       regNameLabel.textContent = 'Restaurant / Business Name *';
-      document.getElementById('login-email').placeholder = 'e.g. greenbistro@zewa.demo';
+      document.getElementById('login-email').placeholder = 'e.g. greenbistro@zewa.in';
     });
 
     // Password Visibility Toggles
@@ -2365,11 +2401,11 @@
 
     // Footer quick demo links
     document.getElementById('footer-btn-demo-cust')?.addEventListener('click', () => {
-      handleLogin('customer@zewa.demo', 'pass123');
+      handleLogin('customer@zewa.in', 'pass123');
     });
 
     document.getElementById('footer-btn-demo-rest')?.addEventListener('click', () => {
-      handleLogin('greenbistro@zewa.demo', 'pass123');
+      handleLogin('greenbistro@zewa.in', 'pass123');
     });
 
     document.getElementById('footer-btn-reset')?.addEventListener('click', () => {

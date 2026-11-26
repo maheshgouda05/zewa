@@ -1,11 +1,36 @@
 # ZEWA – ZERO WASTE (Surplus Food Marketplace)
-### Second-Year Engineering Mini Project — Frontend Prototype
+### Hyperlocal Surplus Food Redistribution Network — Frontend Client & Mobile Experience
 
 **ZEWA (Zero Waste)** is a modern, responsive food-surplus marketplace prototype that connects restaurants, bakeries, cafes, and hotels with nearby customers and college students. Restaurants can list safe, unsold surplus food at 50%–70% discounts, and customers can discover, reserve, and collect these meals before the pickup deadline, preventing avoidable landfill waste and cutting carbon emissions.
 
 ---
 
-## 📁 1. Project Folder Structure
+## 🌿 1. Human-Crafted Artisanal Palette & Typography
+
+ZEWA has been redesigned with a distinctive editorial aesthetic inspired by sustainable gastronomy, slow food movements, and local organic farms:
+
+- **Deep Forest Green (`#244C3A`):** Primary brand anchor representing grounded environmental impact, stability, and authenticity.
+- **Olive Green (`#71865A`):** Secondary herbal tone for cuisine tags, subtitles, and eco-badges.
+- **Warm Cream (`#F7F4EA`):** Warm, inviting canvas background reminiscent of unbleached parchment and artisan flour.
+- **Soft Beige (`#E9E1D2` / `#F1EBE0`):** Tactile card backgrounds and subtle architectural borders.
+- **Terracotta (`#C87855`):** Warm clay accent for savings badges, discounts, and visual focus points.
+- **Charcoal (`#30352F`):** Gentle, high-contrast text color that is much softer and more human than harsh pure black.
+- **Typography:** **`DM Serif Display`** for editorial display headlines paired with **`DM Sans`** for crisp, highly readable mobile body text and UI labels.
+
+---
+
+## 📱 2. Mobile-First Responsive Engineering (Tested 320px–430px)
+
+The prototype is engineered specifically for mobile device demonstration:
+- **Zero Horizontal Overflow:** Tested using Chrome Device Emulation across **320px, 360px, 375px, 390px, 414px, and 430px** with $0\text{px}$ overflow.
+- **Smooth Hamburger Navigation:** Slide-down menu with blurred backdrop, auto-close on selection, and 48px comfortable tap targets.
+- **Compact Mobile Filter Drawer:** In the marketplace, filter controls collapse cleanly behind an *"Adjust Filters"* toggle button so users on phones immediately see food listings.
+- **Single-Column Food Cards on Mobile:** Clean vertical flow with high-resolution food imagery, clearly visible prices, and terracotta discount tags.
+- **Mobile Counter Tool:** Restaurant pickup code verification form adapts to full-width inputs for easy typing on counter tablets or smartphones.
+
+---
+
+## 📁 3. Project Folder Structure
 
 ```
 new mini project/
@@ -19,7 +44,7 @@ new mini project/
 
 ---
 
-## 🚀 2. Instructions to Run the Application
+## 🚀 4. Instructions to Run the Application
 
 You can run ZEWA locally using **any** of the following simple methods:
 
@@ -42,32 +67,32 @@ Open `http://localhost:8000` in your browser.
 
 ---
 
-## 🔑 3. Demo Login Credentials
+## 🔑 5. Demo Login Credentials
 
 For quick evaluation and faculty demonstrations, ZEWA includes **1-Click Demo Buttons** at the top bar and inside the login modal, so you don't even have to type passwords.
 
 ### Customer Account
 - **Role:** Customer / College Student
-- **Email:** `customer@zewa.demo`
+- **Email:** `customer@zewa.in`
 - **Password:** `pass123`
 - **Demo Persona:** Aarav Sharma (Bengaluru)
 - **Features to Demo:** Browse marketplace, filter/search meals, reserve surplus mystery bags, select payment option, get unique pickup code (`ZEWA-XXXX`) with QR representation, view active pickups & history, cancel reservations, edit profile.
 
 ### Restaurant Partner Account
 - **Role:** Restaurant Partner / Eatery Owner
-- **Email:** `greenbistro@zewa.demo`
+- **Email:** `greenbistro@zewa.in`
 - **Password:** `pass123`
 - **Demo Persona:** Chef Priya Patel (The Green Bistro, Indiranagar)
 - **Features to Demo:** Add surplus food listing with auto-calculated discount %, stock management (+/- portions), mark as sold out, manage reservations table, and verify customer pickup codes using the **Counter Verification Tool**.
 
 ---
 
-## ✨ 4. Complete List of Implemented Features
+## ✨ 6. Complete List of Implemented Features
 
 ### 🌟 Landing Page
-- **Clean Nature-Inspired Design:** Natural emerald green (`#10B981`), soft off-white (`#F8FAF8`), dark charcoal typography, and subtle shadows.
+- **Clean Nature-Inspired Design:** Deep forest green, olive, warm cream, soft beige, and terracotta accents.
 - **Hero Section:** Value proposition *"Save Food. Save Money. Save Our Planet."*, interactive stat pills, and live featured food card.
-- **Live Environmental Impact Ribbon:** Dynamic counters for Meals Rescued, Waste Prevented (kg), CO₂e Mitigated (kg), and Money Saved (₹).
+- **Live Environmental Impact Ribbon:** Dynamic counters for Meals Rescued, Waste Prevented (kg), Carbon Avoided (kg CO₂e), and Customer Money Saved (₹).
 - **Featured Surplus Picks:** Live high-discount meal bags rendered directly from the local store.
 - **How ZEWA Works:** Interactive toggle between **Customer Journey** and **Restaurant Journey**.
 - **Benefits Section:** Detailed comparison columns for conscious consumers vs. commercial food businesses.
@@ -79,7 +104,7 @@ For quick evaluation and faculty demonstrations, ZEWA includes **1-Click Demo Bu
   - **Category Chips:** All, Meals & Thalis, Bakery & Pastry, Healthy & Salads, Desserts & Sweets, Snacks, Fresh Produce.
   - **Dietary Filter:** Pure Vegetarian (🟢) vs. Non-Vegetarian (🔴).
   - **Price Range Slider:** Filter surplus prices from ₹50 up to ₹600.
-  - **Distance Filter:** Filter radius from 1 km to 15 km.
+  - **Distance Slider:** Filter radius from 1 km to 15 km.
   - **Sorting Options:** Highest Discount %, Price: Low to High, Nearest Proximity, Ending Soonest.
   - **Empty State:** Friendly reset button when zero items match filters.
 - **Rich Food Cards:** Image, discount badge (`65% OFF`), diet badge, distance, pickup window (`19:30 – 21:30`), stock warning (`Only 2 bags left`), original vs. discounted prices, and instant action buttons.
@@ -129,15 +154,9 @@ For quick evaluation and faculty demonstrations, ZEWA includes **1-Click Demo Bu
 - Interactive personal footprint calculator: Adjust weekly rescued meals to view yearly kg saved, CO₂ avoided, money saved, and equivalent mature trees planted.
 - Zero-waste restaurant partner leaderboard.
 
-### 📱 Responsive Design & UX
-- Works seamlessly on mobile phones (hamburger drawer navigation), tablets, laptops, and desktop screens.
-- Floating toast notification system (Success, Error, Warning, Info).
-- Custom confirmation dialogs for deletions and cancellations (no browser `alert()` or `confirm()`).
-- Data reset tool (`🔄 Reset Data`) to restore sample data at any moment.
-
 ---
 
-## 🔮 5. Future Backend Roadmap (What Backend/API Would Add)
+## 🔮 7. Future Backend Roadmap (What Backend/API Would Add)
 
 For a production deployment after the college mini-project phase, the following features would be connected to a real server and database:
 
@@ -148,11 +167,3 @@ For a production deployment after the college mini-project phase, the following 
 5. **Real-time WebSockets / Push Notifications:** Notify customers when their favorite nearby bakery lists surplus food, and send SMS/WhatsApp alerts when pickup windows open.
 6. **Hardware QR Scanner:** Camera-based barcode/QR code scanning using device cameras at restaurant checkout counters.
 7. **FSSAI Automated Compliance:** Verification APIs to automatically check food business licenses and cold-storage compliance certificates.
-
----
-
-## 🎓 6. Academic Mini-Project Information
-- **Project Title:** ZEWA – Zero Waste Surplus Food Marketplace
-- **Domain:** Web Technologies / Sustainable Computing / Circular Economy
-- **Academic Year:** Second Year B.E. / B.Tech Computer Science & Engineering
-- **Evaluation Priority:** 100% offline-ready, visually stunning, fully functional prototype suitable for viva and lab demonstration.

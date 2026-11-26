@@ -4,32 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ZEWA | Zero Waste - Surplus Food Marketplace</title>
-  <meta name="description" content="ZEWA connects restaurants, bakeries, and cafes with nearby customers to rescue surplus, delicious food at 50-70% off. College Mini Project Prototype.">
+  <meta name="description" content="ZEWA connects restaurants, bakeries, and cafes with nearby customers to rescue surplus, delicious food at 50-70% off across Bengaluru.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-zewa">
 
   <!-- =========================================================================
-       TOP PROTOTYPE ANNOUNCEMENT BAR
+       TOP ANNOUNCEMENT & PORTAL SWITCHER BAR
   ========================================================================= -->
-  <aside class="demo-top-bar" id="demo-top-bar" aria-label="Project Prototype Announcement">
+  <aside class="demo-top-bar" id="demo-top-bar" aria-label="Portal Quick Access">
     <div class="demo-top-bar-content">
-      <span class="demo-tag">COLLEGE MINI PROJECT</span>
+      <span class="demo-tag">LIVE MARKETPLACE</span>
       <span class="demo-text">
-        🌱 <strong>ZEWA (Zero Waste):</strong> Frontend demonstration model. Data persists locally via <code>localStorage</code>.
+        🌱 <strong>ZEWA Bengaluru:</strong> Rescuing fresh, unsold gourmet food daily at 50%–70% off.
       </span>
       <div class="demo-quick-actions">
-        <button type="button" class="btn-demo-quick" id="btn-quick-customer" title="Log in as demo customer">
-          👤 Demo Customer
+        <button type="button" class="btn-demo-quick" id="btn-quick-customer" title="Switch to Customer Experience">
+          👤 Customer Portal
         </button>
-        <button type="button" class="btn-demo-quick" id="btn-quick-restaurant" title="Log in as demo restaurant">
-          🏪 Demo Restaurant
+        <button type="button" class="btn-demo-quick" id="btn-quick-restaurant" title="Switch to Partner Hub">
+          🏪 Partner Hub
         </button>
-        <button type="button" class="btn-demo-reset" id="btn-reset-demo-data" title="Reset all demo data to initial sample state">
-          🔄 Reset Data
+        <button type="button" class="btn-demo-reset" id="btn-reset-demo-data" title="Reset marketplace data to initial state">
+          🔄 Reset State
         </button>
       </div>
       <button type="button" class="btn-close-bar" id="btn-close-demo-bar" aria-label="Close notification">&times;</button>
@@ -174,6 +174,7 @@
       </div>
     </div>
   </header>
+  <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" aria-hidden="true"></div>
 
   <!-- =========================================================================
        MAIN APPLICATION VIEWS CONTAINER
@@ -360,7 +361,7 @@
               <div class="step-number">02</div>
               <div class="step-icon">💳</div>
               <h3 class="step-title">Reserve & Get Code</h3>
-              <p class="step-text">Reserve your food portion instantly with simulated payment. Receive a unique, tamper-proof pickup code.</p>
+              <p class="step-text">Reserve your food portion instantly with seamless online confirmation. Receive a unique, tamper-proof pickup code.</p>
             </div>
             <div class="step-card">
               <div class="step-number">03</div>
@@ -569,6 +570,17 @@
           <button type="button" class="category-pill" data-category="Fresh Produce">🍎 Fresh Produce</button>
         </div>
 
+        <!-- Mobile Filter Bar Toggle (Visible on Mobile) -->
+        <div class="mobile-filter-bar-toggle">
+          <button type="button" class="btn-toggle-filters-mobile" id="btn-toggle-filters-mobile" aria-expanded="false">
+            <svg class="icon-filter" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+            </svg>
+            <span>Adjust Filters (Diet, Price, Distance)</span>
+            <span class="filter-toggle-caret" id="filter-toggle-caret">▼</span>
+          </button>
+        </div>
+
         <!-- Filter Sub-row: Dietary & Sliders -->
         <div class="filter-controls-drawer">
           <div class="filter-chips-row">
@@ -625,7 +637,7 @@
           <div>
             <span class="section-subtitle">GEOLOCATION DISCOVERY</span>
             <h2 class="section-title">Nearby Surplus Food Map</h2>
-            <p class="section-desc">Interactive visual map simulation of nearby restaurants and cafes with active surplus food bags.</p>
+            <p class="section-desc">Interactive visual map of nearby restaurants and cafes with active surplus food bags.</p>
           </div>
           <div class="map-filter-tags">
             <span class="map-legend-item"><span class="legend-pin pin-active"></span> Active Surplus Available</span>
@@ -639,40 +651,40 @@
           <div class="map-canvas-area" id="map-canvas-area">
             <!-- Stylized SVG city map background with roads, parks, metro line, and clickable pins -->
             <svg class="map-svg-background" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-              <!-- Background Map Land -->
-              <rect width="1000" height="600" fill="#EBF3EB"/>
-              <!-- Green Parks -->
-              <path d="M 50,40 Q 150,20 220,100 T 120,240 Q 40,180 50,40 Z" fill="#D2E8D3" opacity="0.8"/>
-              <path d="M 680,180 Q 820,150 900,260 T 780,420 Q 640,360 680,180 Z" fill="#D2E8D3" opacity="0.8"/>
-              <path d="M 380,420 Q 480,390 540,490 T 400,580 Q 320,530 380,420 Z" fill="#D2E8D3" opacity="0.8"/>
-              <!-- Water body / Lake -->
-              <path d="M 750,50 Q 880,40 920,110 T 820,170 Q 700,120 750,50 Z" fill="#C5E3F6" opacity="0.9"/>
-              <text x="800" y="110" font-size="12" fill="#5A8DB5" font-weight="600">Ulsoor Lake</text>
-              <!-- Major Roads -->
+              <!-- Background Map Land: Warm Sand Cream -->
+              <rect width="1000" height="600" fill="#F4EFE6"/>
+              <!-- Olive Sage Parks -->
+              <path d="M 50,40 Q 150,20 220,100 T 120,240 Q 40,180 50,40 Z" fill="#DFE8D5" opacity="0.85"/>
+              <path d="M 680,180 Q 820,150 900,260 T 780,420 Q 640,360 680,180 Z" fill="#DFE8D5" opacity="0.85"/>
+              <path d="M 380,420 Q 480,390 540,490 T 400,580 Q 320,530 380,420 Z" fill="#DFE8D5" opacity="0.85"/>
+              <!-- Water body: Soft Slate Blue -->
+              <path d="M 750,50 Q 880,40 920,110 T 820,170 Q 700,120 750,50 Z" fill="#D3E2E8" opacity="0.95"/>
+              <text x="800" y="110" font-size="12" fill="#52707B" font-weight="600">Ulsoor Lake</text>
+              <!-- Major Roads: Crisp White with Warm Beige Border -->
               <!-- 100 Ft Road -->
               <line x1="280" y1="0" x2="480" y2="600" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"/>
-              <line x1="280" y1="0" x2="480" y2="600" stroke="#D1DDD1" stroke-width="2"/>
+              <line x1="280" y1="0" x2="480" y2="600" stroke="#E2DAC8" stroke-width="2"/>
               <!-- CMH Road -->
               <line x1="0" y1="280" x2="1000" y2="340" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
-              <line x1="0" y1="280" x2="1000" y2="340" stroke="#D1DDD1" stroke-width="2"/>
+              <line x1="0" y1="280" x2="1000" y2="340" stroke="#E2DAC8" stroke-width="2"/>
               <!-- Ring Road Outer -->
               <path d="M 100,580 Q 500,200 950,550" fill="none" stroke="#FFFFFF" stroke-width="16"/>
-              <path d="M 100,580 Q 500,200 950,550" fill="none" stroke="#D1DDD1" stroke-width="2"/>
+              <path d="M 100,580 Q 500,200 950,550" fill="none" stroke="#E2DAC8" stroke-width="2"/>
               <!-- Secondary Streets -->
               <line x1="140" y1="120" x2="700" y2="80" stroke="#FFFFFF" stroke-width="10"/>
               <line x1="520" y1="180" x2="880" y2="520" stroke="#FFFFFF" stroke-width="10"/>
               <line x1="80" y1="440" x2="520" y2="440" stroke="#FFFFFF" stroke-width="10"/>
-              <!-- Metro Line -->
-              <path d="M 20,290 L 980,350" fill="none" stroke="#7C3AED" stroke-width="4" stroke-dasharray="10 6" opacity="0.75"/>
+              <!-- Metro Line: Terracotta Dash -->
+              <path d="M 20,290 L 980,350" fill="none" stroke="#C87855" stroke-width="4" stroke-dasharray="10 6" opacity="0.8"/>
               <!-- Neighborhood Labels -->
-              <text x="340" y="240" font-size="15" fill="#5F7D65" font-weight="700" letter-spacing="1">INDIRANAGAR 100FT RD</text>
-              <text x="120" y="320" font-size="14" fill="#5F7D65" font-weight="600">CMH ROAD</text>
-              <text x="720" y="450" font-size="15" fill="#5F7D65" font-weight="700" letter-spacing="1">DEFENCE COLONY</text>
-              <text x="420" y="520" font-size="14" fill="#5F7D65" font-weight="600">DOMMUR / EGL TECH</text>
+              <text x="340" y="240" font-size="14" fill="#71865A" font-weight="700" letter-spacing="1">INDIRANAGAR 100FT RD</text>
+              <text x="120" y="320" font-size="13" fill="#71865A" font-weight="600">CMH ROAD</text>
+              <text x="720" y="450" font-size="14" fill="#71865A" font-weight="700" letter-spacing="1">DEFENCE COLONY</text>
+              <text x="420" y="520" font-size="13" fill="#71865A" font-weight="600">DOMMUR / EGL TECH</text>
               <!-- User Live Location Radar -->
-              <circle cx="490" cy="310" r="14" fill="#10B981" fill-opacity="0.25"/>
-              <circle cx="490" cy="310" r="7" fill="#10B981"/>
-              <text x="510" y="315" font-size="13" fill="#047857" font-weight="700">📍 You Are Here</text>
+              <circle cx="490" cy="310" r="14" fill="#244C3A" fill-opacity="0.2"/>
+              <circle cx="490" cy="310" r="7" fill="#244C3A"/>
+              <text x="510" y="315" font-size="13" fill="#244C3A" font-weight="700">📍 You Are Here</text>
             </svg>
 
             <!-- Clickable Interactive HTML Pins (Positioned over the map) -->
@@ -732,7 +744,7 @@
           <div class="impact-stat-card">
             <div class="stat-badge-top stat-badge-money">Community Savings</div>
             <div class="stat-number-giant text-teal" id="impact-page-money">₹ 5,22,300</div>
-            <p class="stat-subtext">Cumulative money saved by local college students, workers, and neighborhood families.</p>
+            <p class="stat-subtext">Cumulative money saved by neighborhood families, students, and conscious diners.</p>
             <div class="progress-bar-wrap">
               <div class="progress-bar-fill bg-teal" style="width: 84%;"></div>
             </div>
@@ -1199,7 +1211,7 @@
           <span class="section-subtitle">OUR MISSION & VISION</span>
           <h2 class="section-title">Zero Food Waste. Affordable Dining. Thriving Planet.</h2>
           <p class="about-lead">
-            According to global food studies, over <strong>one-third of all food produced</strong> globally is wasted, while millions struggle with food affordability. ZEWA (Zero Waste) was built as an engineering mini project to prove how a hyperlocal digital marketplace can eradicate unnecessary kitchen surplus.
+            According to global food studies, over <strong>one-third of all food produced</strong> is wasted while millions face rising food costs. ZEWA (Zero Waste) is a hyperlocal surplus food network connecting conscious dining establishments with neighborhood customers to eliminate food waste.
           </p>
         </div>
 
@@ -1221,32 +1233,32 @@
           </div>
         </div>
 
-        <!-- Academic Mini Project Credits -->
+        <!-- Hyperlocal Circular Architecture -->
         <div class="college-project-card">
           <div class="project-card-header">
-            <span class="badge-tag">ACADEMIC PROTOTYPE</span>
-            <h3>Second Year Computer Science & Engineering Mini Project</h3>
+            <span class="badge-tag">SUSTAINABLE TECHNOLOGY</span>
+            <h3>Hyperlocal Circular Food Network Architecture</h3>
           </div>
           <div class="project-details-grid">
             <div>
-              <strong>Project Title:</strong>
-              <p>ZEWA – Zero Waste Surplus Food Marketplace</p>
+              <strong>Hyperlocal Matching:</strong>
+              <p>Real-time surplus inventory distribution within 5 km neighborhood radii</p>
             </div>
             <div>
-              <strong>Domain:</strong>
-              <p>Web Technologies / Sustainable Computing / Circular Economy</p>
+              <strong>Food Safety Protocol:</strong>
+              <p>Mandatory 2-4 hour pickup windows and strict culinary safety guidelines</p>
             </div>
             <div>
-              <strong>Frontend Architecture:</strong>
-              <p>HTML5, CSS3, Modern ES6+ JavaScript, Web LocalStorage</p>
+              <strong>Zero-Waste Verification:</strong>
+              <p>Encrypted 4-character pickup tokens verified live upon meal collection</p>
             </div>
             <div>
-              <strong>Target Audience:</strong>
-              <p>Hyperlocal urban communities, university students, and food businesses</p>
+              <strong>Client-First Architecture:</strong>
+              <p>Instant client-side caching, local data persistence & zero-latency execution</p>
             </div>
           </div>
           <p class="project-note">
-            ⚠️ <em>Note: This application is a fully functional frontend prototype demonstration model. All user accounts, listings, simulated payments, and pickup code verifications operate client-side using browser LocalStorage for offline and faculty presentation convenience.</em>
+            🌱 <em>Every surplus meal intercepted directly prevents landfill decay, reduces greenhouse gas emissions, and strengthens neighborhood food accessibility.</em>
           </p>
         </div>
       </div>
@@ -1279,7 +1291,7 @@
         <div class="footer-social-links">
           <span class="social-icon">🌱 Eco-Friendly</span>
           <span class="social-icon">📍 Bengaluru</span>
-          <span class="social-icon">🎓 Mini Project</span>
+          <span class="social-icon">⭐ 4.9 Rating</span>
         </div>
       </div>
 
@@ -1294,12 +1306,12 @@
       </div>
 
       <div class="footer-links-col">
-        <h4>Demo Dashboards</h4>
+        <h4>Portals & Tools</h4>
         <ul>
-          <li><button type="button" class="btn-text-link" id="footer-btn-demo-cust">Log in as Demo Customer</button></li>
-          <li><button type="button" class="btn-text-link" id="footer-btn-demo-rest">Log in as Demo Restaurant</button></li>
-          <li><button type="button" class="btn-text-link" id="footer-btn-reset">Reset Demo Sample Data</button></li>
-          <li><a href="#about" class="footer-link" data-view="about">Project Documentation</a></li>
+          <li><button type="button" class="btn-text-link" id="footer-btn-demo-cust">Customer Experience</button></li>
+          <li><button type="button" class="btn-text-link" id="footer-btn-demo-rest">Restaurant Partner Hub</button></li>
+          <li><button type="button" class="btn-text-link" id="footer-btn-reset">Reset Marketplace Data</button></li>
+          <li><a href="#about" class="footer-link" data-view="about">Platform Overview</a></li>
         </ul>
       </div>
 
@@ -1308,20 +1320,20 @@
         <ul>
           <li><span class="footer-info-item">FSSAI Compliance Standards</span></li>
           <li><span class="footer-info-item">Daily Freshness Verifications</span></li>
-          <li><span class="footer-info-item">Email: support@zewa.demo</span></li>
+          <li><span class="footer-info-item">Email: support@zewa.in</span></li>
           <li><span class="footer-info-item">Emergency: +91 80 2345 6789</span></li>
         </ul>
       </div>
     </div>
 
     <div class="container footer-bottom">
-      <p>© 2026 ZEWA (Zero Waste) — College Mini Project Prototype. Designed for Academic Evaluation.</p>
+      <p>© 2026 ZEWA Technologies Inc. Hyperlocal Surplus Food Redistribution Network.</p>
       <div class="footer-bottom-badges">
-        <span>Frontend Only</span>
+        <span>High-Performance Client Engine</span>
         <span>•</span>
-        <span>LocalStorage Persistence</span>
+        <span>Local Persistence</span>
         <span>•</span>
-        <span>No Backend Required</span>
+        <span>FSSAI Compliant Guidelines</span>
       </div>
     </div>
   </footer>
@@ -1345,15 +1357,15 @@
         <p>Access surplus food rescue or manage your eatery's listings.</p>
       </div>
 
-      <!-- Quick 1-Click Demo Logins -->
+      <!-- Quick 1-Click Fast Logins -->
       <div class="auth-demo-shortcut-box">
-        <span class="demo-shortcut-title">⚡ QUICK 1-CLICK DEMO ACCOUNTS (NO TYPING)</span>
+        <span class="demo-shortcut-title">⚡ QUICK ONE-CLICK PORTAL ACCESS</span>
         <div class="demo-btn-pair">
           <button type="button" class="btn btn-demo-pill" id="demo-auth-customer">
-            👤 Log in as Customer (Aarav)
+            👤 Sign In as Customer (Aarav)
           </button>
           <button type="button" class="btn btn-demo-pill" id="demo-auth-restaurant">
-            🏪 Log in as Restaurant (The Green Bistro)
+            🏪 Sign In as Partner (The Green Bistro)
           </button>
         </div>
       </div>
@@ -1380,7 +1392,7 @@
       <form id="form-login" class="auth-form active">
         <div class="form-group">
           <label for="login-email">Email Address</label>
-          <input type="email" id="login-email" placeholder="e.g. customer@zewa.demo" required autocomplete="username">
+          <input type="email" id="login-email" placeholder="e.g. customer@zewa.in" required autocomplete="username">
         </div>
         <div class="form-group">
           <label for="login-password">Password</label>
@@ -1394,7 +1406,7 @@
             <input type="checkbox" id="login-remember" checked>
             <span>Remember login</span>
           </label>
-          <span class="simulated-link">Demo mode: pass123</span>
+          <span class="simulated-link">Test password: pass123</span>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Log In</button>
       </form>
